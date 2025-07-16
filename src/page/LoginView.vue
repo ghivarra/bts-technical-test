@@ -9,13 +9,33 @@ import CardHeader from '@/components/ui/card/CardHeader.vue';
 import Input from '@/components/ui/input/Input.vue';
 import Label from '@/components/ui/label/Label.vue';
 import { useRouter } from 'vue-router';
+import { ref } from 'vue';
+import { fetchApi, getCookie, setCookie } from '@/lib/common';
+import type { AxiosResponse } from 'axios';
 
 const router = useRouter()
 
-const registerPage = () => {
-    router.push({
-        path: '/register'
-    })
+const form = ref({
+    username: '',
+    password: '',
+})
+
+const sendForm = () => {
+
+    const input = JSON.parse(JSON.stringify(form.value))
+    const axios = fetchApi(false)
+    axios.post('login', input)
+        .then((response: AxiosResponse) => {
+            const res = response.data
+            alert('Otentikasi berhasil')
+            setCookie('access_token', res.data.token, 24)
+        })
+        .catch((res) => {
+            console.warn(res)
+            if (typeof res.response.data !== 'undefined') {
+                alert(res.response.data.message)
+            }
+        }) 
 }
 
 </script>
@@ -33,15 +53,15 @@ const registerPage = () => {
             <div class="grid gap-4">
                 <div class="grid gap-2">
                     <Label for="username" class="mb-2">Username</Label>
-                    <Input id="username" type="text" placeholder="@username" required />
+                    <Input v-model="form.username" id="username" type="text" placeholder="@username" required />
                 </div>
                 <div class="grid-gap-2 mb-6">
                     <div class="flex items-center mb-4">
                         <Label for="password">Password</Label>
                     </div>
-                    <Input id="password" type="password" placeholder="*********" required />
+                    <Input v-model="form.password" id="password" type="password" placeholder="*********" required />
                 </div>
-                <Button type="submit">
+                <Button @click.preven="sendForm()" type="submit">
                     Login
                 </Button>
             </div>
