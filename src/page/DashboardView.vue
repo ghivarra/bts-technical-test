@@ -33,8 +33,20 @@ const getAllChecklist = () => {
         }) 
 }
 
-const deleteChecklistItem = (key: number, n: number) => {
-    console.log(checklists.value[key].items[n])
+const deleteChecklistItem = (id: number, itemID: number) => {
+    const axios = fetchApi(true)
+    axios.delete(`/checklist/${id}/item/${itemID}`)
+        .then((response: AxiosResponse) => {
+            const res = response.data
+            alert(res.message)
+            getAllChecklist()
+        })
+        .catch((res) => {
+            console.warn(res)
+            if (typeof res.response.data !== 'undefined') {
+                alert(res.response.data.message)
+            }
+        }) 
 }
 
 getAllChecklist()
@@ -66,7 +78,7 @@ getAllChecklist()
                                             <input :for="`check_${key}`" type="checkbox" :checked="item.itemCompletionStatus">
                                             <label :for="`check_${key}`" class="ml-4">{{ item.name }}</label>
                                         </div>
-                                        <Button @click.prevent="deleteChecklistItem(key, n)" type="button" class="rounded-full" variant="destructive" size="sm">X</Button>
+                                        <Button @click.prevent="deleteChecklistItem(checklist.id, item.id)" type="button" class="rounded-full" variant="destructive" size="sm">X</Button>
                                     </div>
                                 </div>
                             </div>
