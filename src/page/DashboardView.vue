@@ -17,6 +17,7 @@ import { useRouter } from 'vue-router';
 import ChecklistAddDialog from '@/dialog/ChecklistAddDialog.vue';
 import ItemUpdateDialog from '@/dialog/ItemUpdateDialog.vue';
 import CardFooter from '@/components/ui/card/CardFooter.vue';
+import ChecklistUpdateDialog from '@/dialog/ChecklistUpdateDialog.vue';
 
 
 const router = useRouter()
@@ -112,10 +113,7 @@ getAllChecklist()
                     <Card v-for="(checklist, key) in checklists" :key="key">
                         <CardHeader>
                             <div class="mb-6 flex items-center border-b-2 pb-6">
-                                <Button type="button" variant="outline">
-                                    <SquarePen width="16" />
-                                    Edit
-                                </Button>
+                                <ChecklistUpdateDialog :checklist="checklist" :reloadData="getAllChecklist" />
                                 <Button @click.prevent="deleteChecklist(checklist.id)" type="button" class="text-red-400" variant="link">
                                     <Trash2 width="16" />
                                     Hapus

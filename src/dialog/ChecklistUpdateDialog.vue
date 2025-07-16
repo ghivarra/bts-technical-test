@@ -8,25 +8,24 @@ import { fetchApi } from '@/lib/common';
 import type { AxiosResponse } from 'axios';
 import Label from '@/components/ui/label/Label.vue';
 import { SquarePen } from 'lucide-vue-next';
-import type { CheckListItem } from '@/types/type';
+import type { CheckList } from '@/types/type';
 
 const emit = defineEmits(['insert'])
 
 const props = defineProps<{
-    id: number,
-    item: CheckListItem
+    checklist: CheckList
     reloadData: () => void
 }>()
 
 const form = ref({
-    itemName: props.item.name
+    name: props.checklist.name
 })
 
 const sendForm = () => {
 
     const input = JSON.parse(JSON.stringify(form.value))
     const axios = fetchApi(true)
-    axios.put(`checklist/${props.id}/item/rename/${props.item.id}`, input)
+    axios.put(`checklist/${props.checklist.id}`, input)
         .then((response: AxiosResponse) => {
             const res = response.data
             alert(res.message)
@@ -45,21 +44,22 @@ const sendForm = () => {
 <template>
     <Dialog>
         <DialogTrigger :as-child="true">
-            <button class="py-1 text-xs px-2 text-white border bg-white rounded-full mr-2">
-                <SquarePen class="text-black text-xs" width="16" />
-            </button>
+            <Button type="button" variant="outline">
+                <SquarePen width="16" />
+                Edit
+            </Button>
         </DialogTrigger>
         <DialogContent>
             <DialogHeader>
-                <DialogTitle>Update Item Checklist</DialogTitle>
+                <DialogTitle>Update Checklist</DialogTitle>
                 <DialogDescription>
-                    Update data item checklist di sini.
+                    Update data nama checklist di sini.
                 </DialogDescription>
             </DialogHeader>
             <section>
                 <div class="grid gap-2">
                     <Label for="name" class="mb-2">Nama</Label>
-                    <Input v-model="form.itemName" id="name" type="text" placeholder="Nama" required />
+                    <Input v-model="form.name" id="name" type="text" placeholder="Nama" required />
                 </div>
             </section>
             <DialogFooter>
