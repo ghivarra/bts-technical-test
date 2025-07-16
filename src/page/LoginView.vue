@@ -10,7 +10,7 @@ import Input from '@/components/ui/input/Input.vue';
 import Label from '@/components/ui/label/Label.vue';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
-import { fetchApi, getCookie, setCookie } from '@/lib/common';
+import { fetchApi, setCookie } from '@/lib/common';
 import type { AxiosResponse } from 'axios';
 
 const router = useRouter()
@@ -29,6 +29,7 @@ const sendForm = () => {
             const res = response.data
             alert('Otentikasi berhasil')
             setCookie('access_token', res.data.token, 24)
+            router.push({ path: '/admin/dashboard' })
         })
         .catch((res) => {
             console.warn(res)
