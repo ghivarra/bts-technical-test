@@ -8,7 +8,7 @@ import SidebarTrigger from '@/components/ui/sidebar/SidebarTrigger.vue';
 import { fetchApi } from '@/lib/common';
 import type { CheckList } from '@/types/type';
 import type { AxiosResponse } from 'axios';
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import { CheckIcon } from 'lucide-vue-next';
 import CardContent from '@/components/ui/card/CardContent.vue';
 import Button from '@/components/ui/button/Button.vue';

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from '@/components/ui/dialog'
 import Button from '@/components/ui/button/Button.vue';
 import Input from '@/components/ui/input/Input.vue';
 import { ref } from 'vue';
@@ -60,7 +60,9 @@ const sendForm = () => {
                 </div>
             </section>
             <DialogFooter>
-                <Button @click.prevent="sendForm()" type="submit">Simpan Perubahan</Button>
+                <DialogClose :as-child="true">
+                    <Button @click.prevent="sendForm()" type="submit">Simpan Perubahan</Button>
+                </DialogClose>
             </DialogFooter>
         </DialogContent>
     </Dialog>
