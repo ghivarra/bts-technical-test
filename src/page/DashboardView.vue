@@ -53,6 +53,22 @@ const deleteChecklistItem = (id: number, itemID: number) => {
         }) 
 }
 
+const updateItemStatus = (checklistID: number, itemID: number) => {
+    const axios = fetchApi(true)
+    axios.put(`/checklist/${checklistID}/item/${itemID}`)
+        .then((response: AxiosResponse) => {
+            const res = response.data
+            alert(res.message)
+            getAllChecklist()
+        })
+        .catch((res) => {
+            console.warn(res)
+            if (typeof res.response.data !== 'undefined') {
+                alert(res.response.data.message)
+            }
+        }) 
+}
+
 getAllChecklist()
 
 </script>
@@ -87,12 +103,14 @@ getAllChecklist()
                                 <div v-for="(item, n) in checklist.items" :key="n" class="flex mb-3">
                                     <div class="flex justify-between w-full items-center">
                                         <div>
-                                            <input :for="`check_${key}`" type="checkbox" :checked="item.itemCompletionStatus">
+                                            <input v-on:change="updateItemStatus(checklist.id, item.id)" :for="`check_${key}`" type="checkbox">
                                             <label :for="`check_${key}`" class="ml-4">{{ item.name }}</label>
                                         </div>
-                                        <Button @click.prevent="deleteChecklistItem(checklist.id, item.id)" type="button" class="rounded-full" variant="destructive" size="sm">
-                                            <Trash2 class="text-white" />
-                                        </Button>
+                                        <div>
+                                            <button @click.prevent="deleteChecklistItem(checklist.id, item.id)" class="py-1 text-xs px-2 text-white bg-red-400 rounded-full">
+                                                <Trash2 class="text-white text-xs" width="16" />
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
