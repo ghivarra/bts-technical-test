@@ -15,6 +15,7 @@ import Button from '@/components/ui/button/Button.vue';
 import ItemAddDialog from '@/dialog/ItemAddDialog.vue';
 import { useRouter } from 'vue-router';
 import ChecklistAddDialog from '@/dialog/ChecklistAddDialog.vue';
+import ItemUpdateDialog from '@/dialog/ItemUpdateDialog.vue';
 
 
 const router = useRouter()
@@ -104,9 +105,10 @@ getAllChecklist()
                                     <div class="flex justify-between w-full items-center">
                                         <div>
                                             <input v-on:change="updateItemStatus(checklist.id, item.id)" :for="`check_${key}`" type="checkbox">
-                                            <label :for="`check_${key}`" class="ml-4">{{ item.name }}</label>
+                                            <label :for="`check_${key}`" class="ml-4" :class="(item.itemCompletionStatus) ? 'line-through' : ''">{{ item.name }}</label>
                                         </div>
-                                        <div>
+                                        <div class="flex items-center">
+                                            <ItemUpdateDialog :id="checklist.id" :item="item" :reloadData="getAllChecklist"></ItemUpdateDialog>
                                             <button @click.prevent="deleteChecklistItem(checklist.id, item.id)" class="py-1 text-xs px-2 text-white bg-red-400 rounded-full">
                                                 <Trash2 class="text-white text-xs" width="16" />
                                             </button>
