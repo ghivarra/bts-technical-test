@@ -14,6 +14,7 @@ import CardContent from '@/components/ui/card/CardContent.vue';
 import Button from '@/components/ui/button/Button.vue';
 import ItemAddDialog from '@/dialog/ItemAddDialog.vue';
 import { useRouter } from 'vue-router';
+import ChecklistAddDialog from '@/dialog/ChecklistAddDialog.vue';
 
 
 const router = useRouter()
@@ -67,7 +68,12 @@ getAllChecklist()
                     </Button>
                 </div>
             </header>
-            <div class="flex flex-1 flex-col gap-4 p-4">
+            <div class="flex flex-1 flex-col gap-4 p-4 pt-6">
+
+                <div class="mb-4">
+                    <ChecklistAddDialog :reloadData="getAllChecklist"></ChecklistAddDialog>
+                </div>
+
                 <div class="grid auto-rows-min gap-4 md:grid-cols-3">
                     <Card v-for="(checklist, key) in checklists" :key="key">
                         <CardHeader>
