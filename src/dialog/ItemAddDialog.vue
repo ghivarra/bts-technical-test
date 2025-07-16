@@ -7,6 +7,7 @@ import { ref } from 'vue';
 import { fetchApi } from '@/lib/common';
 import type { AxiosResponse } from 'axios';
 import Label from '@/components/ui/label/Label.vue';
+import { Plus } from 'lucide-vue-next';
 
 const emit = defineEmits(['insert'])
 
@@ -42,8 +43,9 @@ const sendForm = () => {
 <template>
     <Dialog>
         <DialogTrigger :as-child="true">
-            <Button type="button">
-                Tambah Item
+            <Button type="button" variant="default">
+                <Plus class="text-white" />
+                Tambah
             </Button>
         </DialogTrigger>
         <DialogContent>

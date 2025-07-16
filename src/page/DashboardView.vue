@@ -9,13 +9,14 @@ import { fetchApi } from '@/lib/common';
 import type { CheckList } from '@/types/type';
 import type { AxiosResponse } from 'axios';
 import { ref } from 'vue';
-import { CheckIcon, Trash2 } from 'lucide-vue-next';
+import { CheckIcon, SquarePen, Trash2 } from 'lucide-vue-next';
 import CardContent from '@/components/ui/card/CardContent.vue';
 import Button from '@/components/ui/button/Button.vue';
 import ItemAddDialog from '@/dialog/ItemAddDialog.vue';
 import { useRouter } from 'vue-router';
 import ChecklistAddDialog from '@/dialog/ChecklistAddDialog.vue';
 import ItemUpdateDialog from '@/dialog/ItemUpdateDialog.vue';
+import CardFooter from '@/components/ui/card/CardFooter.vue';
 
 
 const router = useRouter()
@@ -41,6 +42,22 @@ const getAllChecklist = () => {
 const deleteChecklistItem = (id: number, itemID: number) => {
     const axios = fetchApi(true)
     axios.delete(`/checklist/${id}/item/${itemID}`)
+        .then((response: AxiosResponse) => {
+            const res = response.data
+            alert(res.message)
+            getAllChecklist()
+        })
+        .catch((res) => {
+            console.warn(res)
+            if (typeof res.response.data !== 'undefined') {
+                alert(res.response.data.message)
+            }
+        }) 
+}
+
+const deleteChecklist = (id: number) => {
+    const axios = fetchApi(true)
+    axios.delete(`/checklist/${id}`)
         .then((response: AxiosResponse) => {
             const res = response.data
             alert(res.message)
@@ -94,6 +111,16 @@ getAllChecklist()
                 <div class="grid auto-rows-min gap-4 md:grid-cols-3">
                     <Card v-for="(checklist, key) in checklists" :key="key">
                         <CardHeader>
+                            <div class="mb-6 flex items-center border-b-2 pb-6">
+                                <Button type="button" variant="outline">
+                                    <SquarePen width="16" />
+                                    Edit
+                                </Button>
+                                <Button @click.prevent="deleteChecklist(checklist.id)" type="button" class="text-red-400" variant="link">
+                                    <Trash2 width="16" />
+                                    Hapus
+                                </Button>
+                            </div>
                             <div class="flex justify-between items-center">
                                 <CardTitle contenteditable="false">{{ checklist.name }}</CardTitle>
                                 <CheckIcon v-show="checklist.checklistCompletionStatus" class="text-green-600 "></CheckIcon>
