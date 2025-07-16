@@ -9,15 +9,15 @@ import { fetchApi } from '@/lib/common';
 import type { CheckList } from '@/types/type';
 import type { AxiosResponse } from 'axios';
 import { ref } from 'vue';
-import { CheckIcon, SquarePen, Trash2 } from 'lucide-vue-next';
+import { CheckIcon, Trash2 } from 'lucide-vue-next';
 import CardContent from '@/components/ui/card/CardContent.vue';
 import Button from '@/components/ui/button/Button.vue';
 import ItemAddDialog from '@/dialog/ItemAddDialog.vue';
 import { useRouter } from 'vue-router';
 import ChecklistAddDialog from '@/dialog/ChecklistAddDialog.vue';
 import ItemUpdateDialog from '@/dialog/ItemUpdateDialog.vue';
-import CardFooter from '@/components/ui/card/CardFooter.vue';
 import ChecklistUpdateDialog from '@/dialog/ChecklistUpdateDialog.vue';
+import CardFooter from '@/components/ui/card/CardFooter.vue';
 
 
 const router = useRouter()
@@ -112,13 +112,11 @@ getAllChecklist()
                 <div class="grid auto-rows-min gap-4 md:grid-cols-3">
                     <Card v-for="(checklist, key) in checklists" :key="key">
                         <CardHeader>
+                            <!--
                             <div class="mb-6 flex items-center border-b-2 pb-6">
                                 <ChecklistUpdateDialog :checklist="checklist" :reloadData="getAllChecklist" />
-                                <Button @click.prevent="deleteChecklist(checklist.id)" type="button" class="text-red-400" variant="link">
-                                    <Trash2 width="16" />
-                                    Hapus
-                                </Button>
-                            </div>
+                                
+                            </div>-->
                             <div class="flex justify-between items-center">
                                 <CardTitle contenteditable="false">{{ checklist.name }}</CardTitle>
                                 <CheckIcon v-show="checklist.checklistCompletionStatus" class="text-green-600 "></CheckIcon>
@@ -141,8 +139,17 @@ getAllChecklist()
                                     </div>
                                 </div>
                             </div>
-                            <ItemAddDialog :id="checklist.id" :reloadData="getAllChecklist" />
+                            
                         </CardContent>
+                        <CardFooter>
+                            <div class="flex">
+                                <ItemAddDialog :id="checklist.id" :reloadData="getAllChecklist" />
+                                <Button @click.prevent="deleteChecklist(checklist.id)" type="button"    class="text-red-400 ml-3" variant="link">
+                                    <Trash2 width="16" />
+                                    Hapus
+                                </Button>
+                            </div>
+                        </CardFooter>
                     </Card>
                 </div>
             </div>
