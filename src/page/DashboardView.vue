@@ -13,7 +13,10 @@ import { CheckIcon } from 'lucide-vue-next';
 import CardContent from '@/components/ui/card/CardContent.vue';
 import Button from '@/components/ui/button/Button.vue';
 import ItemAddDialog from '@/dialog/ItemAddDialog.vue';
+import { useRouter } from 'vue-router';
 
+
+const router = useRouter()
 
 const checklists = ref<CheckList[]>([])
 
@@ -57,8 +60,11 @@ getAllChecklist()
     <SidebarProvider>
         <SidebarInset>
             <header class="flex h-16 shrink-0 items-center gap-2 border-b">
-                <div class="flex items-center gap-2 px-3">
+                <div class="flex items-center gap-2 justify-between w-full px-3">
                     <SidebarTrigger />
+                    <Button @click.prevent="router.push({ path: '/' })" type="button" variant="outline">
+                        Logout
+                    </Button>
                 </div>
             </header>
             <div class="flex flex-1 flex-col gap-4 p-4">
