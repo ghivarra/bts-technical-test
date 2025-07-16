@@ -9,7 +9,7 @@ import { fetchApi } from '@/lib/common';
 import type { CheckList } from '@/types/type';
 import type { AxiosResponse } from 'axios';
 import { ref } from 'vue';
-import { CheckIcon } from 'lucide-vue-next';
+import { CheckIcon, Trash2 } from 'lucide-vue-next';
 import CardContent from '@/components/ui/card/CardContent.vue';
 import Button from '@/components/ui/button/Button.vue';
 import ItemAddDialog from '@/dialog/ItemAddDialog.vue';
@@ -78,7 +78,7 @@ getAllChecklist()
                     <Card v-for="(checklist, key) in checklists" :key="key">
                         <CardHeader>
                             <div class="flex justify-between items-center">
-                                <CardTitle>{{ checklist.name }}</CardTitle>
+                                <CardTitle contenteditable="false">{{ checklist.name }}</CardTitle>
                                 <CheckIcon v-show="checklist.checklistCompletionStatus" class="text-green-600 "></CheckIcon>
                             </div>
                         </CardHeader>
@@ -90,7 +90,9 @@ getAllChecklist()
                                             <input :for="`check_${key}`" type="checkbox" :checked="item.itemCompletionStatus">
                                             <label :for="`check_${key}`" class="ml-4">{{ item.name }}</label>
                                         </div>
-                                        <Button @click.prevent="deleteChecklistItem(checklist.id, item.id)" type="button" class="rounded-full" variant="destructive" size="sm">X</Button>
+                                        <Button @click.prevent="deleteChecklistItem(checklist.id, item.id)" type="button" class="rounded-full" variant="destructive" size="sm">
+                                            <Trash2 class="text-white" />
+                                        </Button>
                                     </div>
                                 </div>
                             </div>
